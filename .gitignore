@@ -1,0 +1,13 @@
+# Ignora tutto di default
+*
+
+# Mantieni questi file
+!LICENSE
+!version.json
+!ascuita-latest.zip
+!.gitignore
+
+# Mantieni la cartella GitHub Actions
+!.github/
+!.github/workflows/
+!.github/workflows/release.yml
