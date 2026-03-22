@@ -1,0 +1,51 @@
+name: Create Release from latest build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ascuita-latest/**'
+      - 'version.json'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read version from version.json
+        id: version
+        run: |
+          VERSION=$(jq -r '.version' version.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP from ascuita-latest
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          zip -r "ascuita-${VERSION}.zip" ascuita-latest
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Ascuita Desktop v${{ steps.version.outputs.version }}
+          body: |
+            Automatic release for Ascuita Desktop v${{ steps.version.outputs.version }}.
+          draft: false
+          prerelease: false
+
+      - name: Upload ZIP as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ascuita-${{ steps.version.outputs.version }}.zip
+          asset_name: ascuita-${{ steps.version.outputs.version }}.zip
+          asset_content_type: application/zip
