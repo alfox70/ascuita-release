@@ -1,6 +1,6 @@
 # Ascuita
 
-Applicazione desktop per [breve descrizione funzione].
+Applicazione desktop gestionale per associazioni.
 
 ## Download
 
@@ -21,7 +21,7 @@ L'ultima versione è disponibile nella sezione [Releases](../../releases/latest)
 Contatta: **Alfonso Ferlita** &lt;alfonsoferlita@gmail.com&gt;
 
 Nella mail includi:
-- Nome azienda / Nome completo
+- Nome associazione / Nome completo
 - Uso previsto (personale, aziendale, educativo)
 
 ## Installazione
